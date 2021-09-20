@@ -1,5 +1,7 @@
 <%- include("partials/head.ejs") %>
 
+<% let validFriend = manualContact ? manualContact : (contact && contact)%>
+
     <header>
         <nav id="nav">
             <a href="#"><img src="/assets/fakebookicon.png" alt=""></a>
@@ -40,17 +42,14 @@
             <div id="containers">
                 <div>
                     
-                        <a href="/user/contact/delete/<%= contact._id %>"><button><i class="fas fa-trash"></i></button></a>
-                        <a href="/user/contact/edit/<%= contact._id %>"><button>✏️</button></a>
-                    
-                    <div id="coverPhoto" style="background-image: url(<%=contact.coverSrc%>)">
-                        <div id="profilePhoto" style="background-image: url(<%=contact.src%>)"></div>
+                    <div id="coverPhoto" style="background-image: url(<%=validFriend.coverSrc%>)">
+                        <div id="profilePhoto" style="background-image: url(<%=validFriend.src%>)"></div>
                     </div>
                     
                     <div id="profileContainer">
                         <div class="detailsContainer">
                             <div>  
-                                <p><%= contact.phone%></p>
+                                <p><%= validFriend.phone%></p>
                             </div> 
                             <div class="iconProfile">
                                 <i class="fab fa-whatsapp"></i>
@@ -59,7 +58,7 @@
                     
                         <div class="detailsContainer">
                             <div>
-                                <p><%= contact.email%></p>
+                                <p><%= validFriend.email%></p>
                             </div>
                             <div class="iconProfile">
                                 <i class="fas fa-at"></i>
@@ -68,7 +67,7 @@
                         
                         <div class="detailsContainer">
                             <div>
-                                <p><%= contact.city%></p>
+                                <p><%= validFriend.city%></p>
                             </div>
                             <div class="iconProfile">
                                 <img class="profileDetails" src="/assets/map.png" alt="...">

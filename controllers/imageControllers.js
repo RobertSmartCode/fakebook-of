@@ -27,7 +27,7 @@ const imageControllers={
             }else {
                 newMessage.comment = req.body.comment,
                 newMessage.image = req.body.image,
-                userId = req.params._id
+                newMessage.userId = req.params._id
             }
             await newMessage.save()
             res.redirect("/")

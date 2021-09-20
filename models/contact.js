@@ -12,7 +12,6 @@ const contactSchema = new mongoose.Schema({
     num:{type: Number},
     flagFriend:{type: Boolean, default: false},
     userId:{type:mongoose.Types.ObjectId, ref:'user'}
-
 })
 
 const Contact = mongoose.model("contact", contactSchema)

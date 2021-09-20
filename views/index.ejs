@@ -1,19 +1,19 @@
 <%- include("partials/head.ejs") %>
 <% let actionRoute = sign ? "/user/signin" : "/user/signup" %>   
-
-<% if (loggedIn) { %>
-    <header>
-        <nav id="nav">
-                <a href="#"><img src="/assets/fakebookicon.png" alt=""></a>
-                <a href="#"><button><i class="fas fa-home"></i></button></a>
-                <a href="#" target="_blank" rel="noopener noreferrer"><button><i class="fas fa-utensils"></i></button></a>
-                <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer"><button><i class="fab fa-youtube"></i></button></a>
-                <a href="https://thehilogame.herokuapp.com" target="_blank" rel="noopener noreferrer"><button><i class="fas fa-gamepad"></i></button></a>
-                <a href="https://punto-g-app.herokuapp.com" target="_blank" rel="noopener noreferrer"><button><i class="fas fa-kiss-wink-heart"></i></button></a>
-                <a href="/user/data/<%= userId %>"><div class="photoUser" style="background-image: url(<%= userPhoto %>)"></div></a>
-                <a href="/user/logOut"><button><i class="fas fa-sign-out-alt"></i></button></a>
-        </nav>
-    </header>     
+    
+    <% if (loggedIn) { %>
+        <header>
+            <nav id="nav">
+                    <a href="#"><img src="/assets/fakebookicon.png" alt=""></a>
+                    <a href="#"><button><i class="fas fa-home"></i></button></a>
+                    <a href="#" target="_blank" rel="noopener noreferrer"><button><i class="fas fa-utensils"></i></button></a>
+                    <a href="https://www.youtube.com/channel/UCpsBIC82s8NhGjvp_c0Al_w" target="_blank" rel="noopener noreferrer"><button><i class="fab fa-youtube"></i></button></a>
+                    <a href="https://thehilogame.herokuapp.com" target="_blank" rel="noopener noreferrer"><button><i class="fas fa-gamepad"></i></button></a>
+                    <a href="https://punto-g-app.herokuapp.com" target="_blank" rel="noopener noreferrer"><button><i class="fas fa-kiss-wink-heart"></i></button></a>
+                    <a href="/user/data/<%=userId%>"><div class="photoUser" style="background-image: url(<%=userPhoto%>)"></div></a>
+                    <a href="/user/logOut"><button><i class="fas fa-sign-out-alt"></i></button></a>
+            </nav>
+        </header>     
     <% } %>    
 
         <main class ="home">
@@ -23,7 +23,7 @@
                 <div class="welcomeContainer">
                     <div class="logoWelcome">
                     </div>
-                    <form class="formUser" action="<%= actionRoute %>" method="POST">
+                    <form class="formUser" action="<%=actionRoute%>" method="POST">
                         
                             <input id="email" type="email" placeholder="Email" name="email" required>
                             <% if (!sign) { %>
@@ -65,21 +65,27 @@
                     </div>
                 
                     <% comments.forEach(comment => { %>
+
                         <div id="postUpload">
-                                <div class="iconsTrash">
-                                    <a href="/image/delete/<%= comment._id %>"><i class="fas fa-trash"></i></a>
-                                    <a href="/image/edit/<%= comment._id %>"><i class="fas fa-edit"></i></a>
+                                <div class="userContainer">
+                                    <div class="userData">
+                                        <a href="/user/contact/<%= comment.userId._id %>"><div class="photoUser" style="background-image: url(<%=comment.userId.src%>);"></div></a>
+                                        <p><%=comment.userId.name%><span class="check"><i class="fas fa-check-circle"></i></span></p>
+                                    </div>
+                                    <div class="userAction">
+                                        <a href="/image/delete/<%= comment._id %>"><i class="fas fa-trash"></i></a>
+                                        <a href="/image/edit/<%= comment._id %>"><i class="fas fa-edit"></i></a>
+                                    </div>
                                 </div>
-                                <div class="userCommentContainer">
-                                </div>
+                                
                                 <div class="commentContainer">
                                     <p><%= comment.comment %></p>
                                 </div>
-                            <img id="imageUp" src="/upload/<%= comment.image %>" alt="...">
+                                <div class="photo" style="background-image: url(/upload/<%=comment.image%>)"></div>
+                            
                         </div>
                         
                     <% }) %>
-                
                 <% } %>
         </main>
     

@@ -5,7 +5,7 @@ const User = require("../models/newUser")
 
 const contactsControllers ={
     home: async (req, res) => {
-        const comments = await Message.find({userId: req.session.userId})
+        const comments = await Message.find({userId: req.session.userId}).populate("userId")
         const friendsEmail = await Contact.find({userId: req.session.userId})
         const emailFriend = friendsEmail.map(image=> {
             return image.email})
@@ -13,9 +13,8 @@ const contactsControllers ={
         const imagesFriends = friends.map(image => {
             return image._id
         })
-        const realImagesFriends = await Message.find({userId: imagesFriends})
+        const realImagesFriends = await Message.find({userId: imagesFriends}).populate("userId")
         const realPhotos = comments.concat(realImagesFriends)
-        
         res.render("index", {
             title: "Home",
             imagesFriends: friends,
@@ -39,20 +38,19 @@ const contactsControllers ={
         })
         const friendsEmail = await Contact.find({userId: req.session.userId})
         const emailFriend = friendsEmail.map(image=> {
-        return image.email})
+                return image.email})
         const friends = await User.find({email: emailFriend})
         try {
-            
             let friendExist = await User.findOne({email})
-            let friendNew = await Contact.findOne({email})
-            if (friendNew) throw new Error("Este usuario ya se encuentra en su agenda")
             if (!friendExist){
                 throw new Error("Este usuario no existe. Intente de nuevo")
-        }
-
+            }
+            let friendNew = await Contact.findOne({email})
+            if (friendNew) throw new Error("Este usuario ya se encuentra en su agenda")
+            
             await newFriend.save() 
-            res.redirect("/")
-        }catch(error){
+            res.redirect(`/user/data/${req.session.userId}`)
+        }catch(error)   {
             res.render("profile",{
                 title: "Mi perfil",
                 contacts: friends,
@@ -68,7 +66,6 @@ const contactsControllers ={
 
 
     userData: async (req, res) => {
-        
         const imagesFriends = await Contact.find({userId: req.session.userId})
         emailFriend = imagesFriends.map(image=> {
             return image.email})
@@ -188,7 +185,9 @@ const contactsControllers ={
 
     deleteMessage: async (req, res) => {
         await Message.findOneAndDelete({_id: req.params._id})
-        res.redirect("/")
+        req.session.destroy(()=>{
+            res.redirect('/')
+        })
     },
  
 }
