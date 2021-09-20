@@ -185,9 +185,7 @@ const contactsControllers ={
 
     deleteMessage: async (req, res) => {
         await Message.findOneAndDelete({_id: req.params._id})
-        req.session.destroy(()=>{
             res.redirect('/')
-        })
     },
  
 }
