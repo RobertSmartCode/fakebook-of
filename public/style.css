@@ -181,6 +181,7 @@ textarea {
 .addContainer form {
   display: flex;
   align-items: center;
+  padding-bottom: 1.3em;
 }
 
 .addContainer form button {
