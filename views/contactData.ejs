@@ -1,0 +1,112 @@
+<%- include("partials/head.ejs") %>
+
+    <header>
+        <nav id="nav">
+            <a href="#"><img src="/assets/fakebookicon.png" alt=""></a>
+            <a href="/"><button><i class="fas fa-home"></i></button></a>
+            <a href="https://yummyarg.herokuapp.com" target="_blank" rel="noopener noreferrer"><button><i class="fas fa-utensils"></i></button></a>
+            <a href="https://www.youtube.com/channel/UCpsBIC82s8NhGjvp_c0Al_w" target="_blank" rel="noopener noreferrer"><button><i class="fab fa-youtube"></i></button></a>
+            <a href="https://thehilogame.herokuapp.com" target="_blank" rel="noopener noreferrer"><button><i class="fas fa-gamepad"></i></button></a>
+            <a href="https://punto-g-app.herokuapp.com" target="_blank" rel="noopener noreferrer"><button><i class="fas fa-kiss-wink-heart"></i></button></a>
+            <a href="/user/data/<%= userId %>"><div class="photoUser" style="background-image: url(<%= userPhoto %>)"></div></a>
+            <a href="/user/logOut"><button><i class="fas fa-sign-out-alt"></i></button></a>
+        </nav>
+    </header>
+    <main>
+        <!-- <div id="containers">
+            <div id="cardContainer">
+                    <div class="photoUser"></div>
+                
+                <div class="cardHeader">
+                    <h1>Vladimir Putín</h1>
+                </div>
+                <div class="contactProfile">
+                    <p class="info">Descripción</p>
+                    <br/>
+                    <div>
+                        <p>Soy una persona a la que le gusta jugar con armas. Soy el mejor presidente del mundo y Rusia va a dominar el planeta. Aguante Nicolás Maduro</p>
+                        <p>📱: 123456789</p>
+                        <p>📧: putin@putin.com</p>
+                        <p>🏠: Rusia 1200</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>  -->
+        
+        <div id="containerContact">
+             
+        <% if (!info) { %>
+            <div id="containers">
+                <div>
+                    
+                        <a href="/user/contact/delete/<%= contact._id %>"><button><i class="fas fa-trash"></i></button></a>
+                        <a href="/user/contact/edit/<%= contact._id %>"><button>✏️</button></a>
+                    
+                    <div id="coverPhoto" style="background-image: url(<%=contact.coverSrc%>)">
+                        <div id="profilePhoto" style="background-image: url(<%=contact.src%>)"></div>
+                    </div>
+                    
+                    <div id="profileContainer">
+                        <div class="detailsContainer">
+                            <div>  
+                                <p><%= contact.phone%></p>
+                            </div> 
+                            <div class="iconProfile">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                        </div>
+                    
+                        <div class="detailsContainer">
+                            <div>
+                                <p><%= contact.email%></p>
+                            </div>
+                            <div class="iconProfile">
+                                <i class="fas fa-at"></i>
+                            </div>
+                        </div> 
+                        
+                        <div class="detailsContainer">
+                            <div>
+                                <p><%= contact.city%></p>
+                            </div>
+                            <div class="iconProfile">
+                                <img class="profileDetails" src="/assets/map.png" alt="...">
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+    <% }else{ %>
+                
+        <div class="windowPopUpEdit">
+        <a href="/user/data" style='text-decoration:none;'>
+        Cerrar
+        </a>
+        <form id="formEdit" action="/user/data/<%= userId %>" method="POST">
+            <input type="text" name="name" placeholder="Nombre" value="<%=info ? info.name : ""  %>">
+            <input type="text" name="lastName" placeholder="Apellido" value="<%=info ? info.lastName : ""  %>">
+            <input type="text" name="phone" placeholder="Número de teléfono" value="<%=info ? info.phone : ""  %>">
+            <input type="text" name="email" placeholder="Email" value="<%=info ? info.email : ""  %>">
+            <input type="text" name="src" placeholder="Foto" value="<%=info ? info.src : ""  %>">
+            <input type="text" name="coverSrc" placeholder="Foto de portada" value="<%=info ? info.coverSrc : ""  %>">
+            <input type="text" name="city" placeholder="Ciudad" value="<%=info ? info.city : ""  %>">
+            <input type="text" name="street" placeholder="Calle" value="<%=info ? info.street : ""  %>">
+            <input type="text" name="num" placeholder="Número" value="<%=info ? info.num : ""  %>">
+            <input type="hidden" name="_id" value="<%= info ? info._id : null %>" value="<%=info ? info.name : ""  %>">
+            <input type="submit" value="Editar">
+        </form>
+        </div>  
+
+<% } %>
+    </main>
+    <footer>
+
+    </footer>
+    <script src="https://kit.fontawesome.com/f119dc4da4.js" crossorigin="anonymous"></script>  
+</body>
+</html>

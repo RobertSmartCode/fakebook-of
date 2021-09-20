@@ -1,0 +1,89 @@
+<%- include("partials/head.ejs") %>
+<% let actionRoute = sign ? "/user/signin" : "/user/signup" %>   
+
+<% if (loggedIn) { %>
+    <header>
+        <nav id="nav">
+                <a href="#"><img src="/assets/fakebookicon.png" alt=""></a>
+                <a href="#"><button><i class="fas fa-home"></i></button></a>
+                <a href="#" target="_blank" rel="noopener noreferrer"><button><i class="fas fa-utensils"></i></button></a>
+                <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer"><button><i class="fab fa-youtube"></i></button></a>
+                <a href="https://thehilogame.herokuapp.com" target="_blank" rel="noopener noreferrer"><button><i class="fas fa-gamepad"></i></button></a>
+                <a href="https://punto-g-app.herokuapp.com" target="_blank" rel="noopener noreferrer"><button><i class="fas fa-kiss-wink-heart"></i></button></a>
+                <a href="/user/data/<%= userId %>"><div class="photoUser" style="background-image: url(<%= userPhoto %>)"></div></a>
+                <a href="/user/logOut"><button><i class="fas fa-sign-out-alt"></i></button></a>
+        </nav>
+    </header>     
+    <% } %>    
+
+        <main class ="home">
+            <% if (!loggedIn) {%>
+                <div class="logoFake">
+                </div>
+                <div class="welcomeContainer">
+                    <div class="logoWelcome">
+                    </div>
+                    <form class="formUser" action="<%= actionRoute %>" method="POST">
+                        
+                            <input id="email" type="email" placeholder="Email" name="email" required>
+                            <% if (!sign) { %>
+                                <input id="src" type="text" placeholder="Foto" name="src" required>
+                                <input type="text" name="name" placeholder="Nombre y apellido" required>
+                                <input type="number" name="phone" placeholder="Número de teléfono" required>
+                                <input type="text" name="coverSrc" placeholder="Foto de portada" required>
+                                <input type="text" name="city" placeholder="Ciudad" required>
+                            <% } %>
+                            <input id="password" type="password" placeholder="Contraseña" name="password" required>
+                            <input class=<%= !sign ? "registration" : "entration" %> type="submit" value=<%= !sign ? 'Registrarse' : 'Entrar' %>>
+                            <div class='messageError'>
+                                <% if(error && sign){%>
+                                    <p><%= error.includes('incorrecta') ? error : 'Problemas técnicos. Intente mas tarde'%></p> 
+                                <% }else if (error && !sign) { %> 
+                                    <p><%= error.includes('uso') ? error : 'Problemas técnicos. Intente mas tarde'%></p>
+                                <% } %>
+                            </div>
+                        <% if (!sign) { %>
+                            <p style="font-weight: bold;">¿Ya tenés cuenta?. <a class="linkAccount" href="/signin">Entrá acá!</a></p>
+                        <% }else { %>
+                            <p style="font-weight: bold;">¿No tenés cuenta?. <a class="linkAccount" href="/signup">Entrá acá!</a></p>
+                            <% } %>
+                    </form>
+                    
+                </div>
+                
+            <% }else { %>
+                
+                    <div id="formUpload">
+                        <form action="/image/<%=userId%>" method="POST" enctype="multipart/form-data">
+                            <textarea name="comment" placeholder="¿Qué estás pensando?"  required></textarea>
+                            <div>
+                                <span class="publicationLabel"><label for="inputFile" class="inputLabel"><i class="far fa-images"></i> Fotos </label></span>
+                                <input id="inputFile"  type="file" name="image" placeholder="Foto de post" required>
+                                <input class="publication" type="submit"  value="Publicar">
+                            </div>
+                        </form>
+                    </div>
+                
+                    <% comments.forEach(comment => { %>
+                        <div id="postUpload">
+                                <div class="iconsTrash">
+                                    <a href="/image/delete/<%= comment._id %>"><i class="fas fa-trash"></i></a>
+                                    <a href="/image/edit/<%= comment._id %>"><i class="fas fa-edit"></i></a>
+                                </div>
+                                <div class="userCommentContainer">
+                                </div>
+                                <div class="commentContainer">
+                                    <p><%= comment.comment %></p>
+                                </div>
+                            <img id="imageUp" src="/upload/<%= comment.image %>" alt="...">
+                        </div>
+                        
+                    <% }) %>
+                
+                <% } %>
+        </main>
+    
+    
+        <script src="https://kit.fontawesome.com/f119dc4da4.js" crossorigin="anonymous"></script>   
+</body>
+</html>
