@@ -13,6 +13,7 @@ const middlewares = require("./controllers/middlewares")
 const morgan = require("morgan")
 const multer = require("multer")
 
+
 const router = require("./routes/index")
 const app = express()
 require("./config/database")
@@ -21,7 +22,6 @@ require("./config/database")
 app.use(cors())
 app.use(express.static("public"))
 app.set("view engine", "ejs")
-
 
 
 app.use(morgan("dev"))

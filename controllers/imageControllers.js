@@ -19,7 +19,7 @@ const imageControllers={
            let newMessage
            if (!req.body._id) {
             newMessage = new Message({
-                image: imgUrl + ext,
+                image: targetPath,
                 comment: req.body.comment,
                 userId: req.params._id
             })
