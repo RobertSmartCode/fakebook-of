@@ -2,7 +2,6 @@ const path = require("path")
 const { randomNumber } = require("../functionExtra/extraFunctions")
 const fs = require("fs-extra")
 const Message = require("../models/message")
-require("dotenv").config()
 
 const imageControllers={
     createImage: async (req, res) =>{
@@ -20,7 +19,7 @@ const imageControllers={
            let newMessage
            if (!req.body._id) {
             newMessage = new Message({
-                image: `https://${localhost}:${process.env.PORT || 4000}` + "/public/upload/" + imgUrl + ext,
+                image: imgUrl + ext,
                 comment: req.body.comment,
                 userId: req.params._id
             })
