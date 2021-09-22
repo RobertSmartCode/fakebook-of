@@ -20,7 +20,7 @@ const imageControllers={
            let newMessage
            if (!req.body._id) {
             newMessage = new Message({
-                image: `${process.env.HOST}:${process.env.PORT || 4000}` + "/public/upload/" + imgUrl + ext,
+                image: `https://${localhost}:${process.env.PORT || 4000}` + "/public/upload/" + imgUrl + ext,
                 comment: req.body.comment,
                 userId: req.params._id
             })
