@@ -6,12 +6,9 @@ const moment = require("moment")
 const contactsControllers ={
     home: async (req, res) => {
         const messagesFounds = await Message.findAll({include: [User], raw: true})
-        
         let date = messagesFounds.map(message => { return moment(message.createdAt, "YYYYMMDD").fromNow() })
-        console.log(date)
         messagesFounds.reverse()
         date.reverse()
-          console.log(messagesFounds)
         res.render("index", {
             title: "Home",
             date,
