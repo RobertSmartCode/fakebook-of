@@ -1,7 +1,5 @@
 const User = require("../models/newUser")
 const bcryptjs = require('bcryptjs')
-const Contact = require("../models/contact")
-const Message = require("../models/message")
 
 const userControllers={
     sign: (req, res) => {
@@ -15,25 +13,15 @@ const userControllers={
     },
 
     signIn: async (req, res) => {
-        // const comments = await Message.find({userId: req.session.userId})
-        // const friendsEmail = await Contact.find({userId: req.session.userId})
-        // const emailFriend = friendsEmail.map(image=> {
-        //     return image.email})
-        // const friends = await User.find({email: emailFriend})
-        // const imagesFriends = friends.map(image => {
-        //     return image._id
-        // })
-        // const realImagesFriends = await Message.find({userId: imagesFriends})
-        // const realPhotos = comments.concat(realImagesFriends)
         const {email, password} = req.body
         try {
-            let userLog = await User.findOne({email})
+            let userLog = await User.findOne({where: {email}})
             if (!userLog) throw new Error("Email o contraseña incorrecta")
             let correctPass = bcryptjs.compareSync(password, userLog.password)
             if (!correctPass) throw new Error("Email o contraseña incorrecta")
                 req.session.loggedIn = true
                 req.session.user = userLog.email
-                req.session.userId = userLog._id
+                req.session.userId = userLog.id
                 req.session.src = userLog.src
                 req.session.name = userLog.name
                 res.redirect("/")
@@ -50,18 +38,6 @@ const userControllers={
     },
 
     signUp: async (req, res) => {
-        
-        // const comments = await Message.find({userId: req.session.userId})
-        // const friendsEmail = await Contact.find({userId: req.session.userId})
-        // const emailFriend = friendsEmail.map(image=> {
-        //     return image.email})
-        // const friends = await User.find({email: emailFriend})
-        // const imagesFriends = friends.map(image => {
-        //     return image._id
-        // })
-        // const realImagesFriends = await Message.find({userId: imagesFriends})
-        // const realPhotos = comments.concat(realImagesFriends)
-
         const {email, src, password, name, phone, coverSrc, city} = req.body
         let cryptPass = bcryptjs.hashSync(password)
         let newUser = await new User({
@@ -74,14 +50,14 @@ const userControllers={
             password: cryptPass,
         })
         try {
-            let repeatUser = await User.findOne({email: email})
+            let repeatUser = await User.findOne({where: {email}})
             if (repeatUser){
                  throw new Error("El mail ya está en uso")
             }
                 await newUser.save()
                 req.session.loggedIn = true
                 req.session.user = newUser.email
-                req.session.userId = newUser._id
+                req.session.userId = newUser.id
                 req.session.src = newUser.src
                 req.session.name = newUser.name
                 res.redirect("/")
@@ -95,6 +71,7 @@ const userControllers={
             })
         }
     },
+
 
     logOut: (req, res) => {
         req.session.destroy(() =>{

@@ -1,6 +1,6 @@
 <%- include("partials/head.ejs") %>
-<% let actionRoute = sign ? "/user/signin" : "/user/signup" %>   
-    
+<% let actionRoute = sign ? "/user/signin" : "/user/signup" %> 
+ 
     <% if (loggedIn) { %>
         <header>
             <nav id="nav">
@@ -64,17 +64,18 @@
                         </form>
                     </div>
                 
-                    <% comments.forEach(comment => { %>
-
-                        <div id="postUpload">
+                    <% comments.forEach((comment, index) => { %>
+                        
+                        <% if (!info) { %>
+                            <div id="postUpload">
                                 <div class="userContainer">
                                     <div class="userData">
-                                        <a href="/user/contact/<%= comment.userId._id %>"><div class="photoUser" style="background-image: url(<%=comment.userId.src%>);"></div></a>
-                                        <p><%=comment.userId.name%><span class="check"><i class="fas fa-check-circle"></i></span></p>
+                                        <a href="/user/data/<%= comment["user.id"] %>"><div class="photoUser" style="background-image: url(<%=comment["user.src"]%>);"></div></a>
+                                        <a class="nameUser" href="/user/data/<%= comment["user.id"] %>"><p><%=comment["user.name"]%><span class="check"><i class="fas fa-check-circle"></i></span></p></a>
                                     </div>
                                     <div class="userAction">
-                                        <a href="/image/delete/<%= comment._id %>"><i class="fas fa-trash"></i></a>
-                                        <a href="/image/edit/<%= comment._id %>"><i class="fas fa-edit"></i></a>
+                                        <a href="#windowAdd"><i class="fas fa-trash"></i></a>
+                                        <a href="/image/edit/<%=comment.id%>"><i class="fas fa-edit"></i></a>
                                     </div>
                                 </div>
                                 
@@ -82,8 +83,45 @@
                                     <p><%= comment.comment %></p>
                                 </div>
                                 <div class="photo" style="background-image: url(/upload/<%=comment.image%>)"></div>
+                                    <p><%=date[index]%></p>
+                            </div>  
                             
-                        </div>
+
+                            <div id="windowAdd" class="modal">
+                                <div class="windowPopUpDelete">
+                                    <a href="#" style='text-decoration:none;'>
+                                        <i class="fas fa-window-close"></i>
+                                    </a>
+                                    <h3>¿Seguro desea eliminar?</h3>
+                                    <div class="confirmDelete">
+                                        <a href="/"><i class="fas fa-times"></i></a> 
+                                        <a  href="/image/delete/<%=comment.id%>"><i class="fas fa-check"></i></a>
+                                    </div>
+                                </div>  
+                            </div>
+                        <% }else{ %>   
+                            <h4>¿Seguro quiere editar?<h6>(solo podrá editar el comentario)</h6></h4>
+                            <div class="confirmEdit">
+                                <a href="/"><i class="fas fa-times"></i></a> 
+                                <a  href="#windowAdd"><i class="fas fa-check"></i></a>
+                            </div>
+                            <div id="windowAdd" class="modal">     
+                                <div class="windowPopUpUpdate">
+                                    <a href="/" style='text-decoration:none;'>
+                                        <i class="fas fa-window-close"></i>
+                                    </a>
+                                    <div id="formUpdate">
+                                        <form action="/image/update/<%=info.id%>" method="POST" enctype="multipart/form-data">
+                                            <textarea name="comment" placeholder="¿Qué estás pensando?" ><%=info.comment%></textarea>
+                                            <input class="publication" type="submit"  value="Aceptar">
+                                        </form>
+                                    </div>
+                                    <div class="photoFound" style="background-image: url(/upload/<%=info.image%>)"></div>
+                                </div>  
+                            </div>      
+                        <% } %>
+                             
+                        
                         
                     <% }) %>
                 <% } %>

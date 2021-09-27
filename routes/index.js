@@ -8,30 +8,16 @@ const imageControllers = require("../controllers/imageControllers")
 router.route("/")
 .get(contactsControllers.home)
 
-
 router.route("/signup")
 .get(contactsControllers.home)
 
 router.route("/signin")
 .get(contactsControllers.home)
 
-
-router.route("/user/friend/:_id")
-.post(contactsControllers.addFriend)
-
-router.route("/user/data/:_id")
+router.route("/user/data/:id")
 .get(contactsControllers.userData)
 .post(contactsControllers.newContact)
 
-
-router.route("/user/contact/:_id")
-.get(contactsControllers.contactCard)
-
-router.route("/user/contact/edit/:_id")
-.get(contactsControllers.editContact)
-
-// router.route("/user/contact/delete/:_id")
-// .get(contactsControllers.deleteContact)
 
 router.route("/user/signup")
 .post(userControllers.signUp)
@@ -42,19 +28,18 @@ router.route("/user/signin")
 router.route("/user/logOut")
 .get(userControllers.logOut)
 
-router.route("/user/message")
-.post(contactsControllers.newMessage)
-
-
 //Imágenes
 
-router.route("/image/:_id")
+router.route("/image/:id")
 .post(imageControllers.createImage)
 
-router.route("/image/edit/:_id")
+router.route("/image/edit/:id")
 .get(contactsControllers.editPost)
 
-router.route("/image/delete/:_id")
+router.route("/image/update/:id")
+.post(contactsControllers.updatePost)
+
+router.route("/image/delete/:id")
 .get(contactsControllers.deleteMessage)
 
 module.exports = router

@@ -1,13 +1,15 @@
-const mongoose = require("mongoose")
+const Sequelize = require("sequelize")
+const db = require("../config/database")
 
-const messageSchema = mongoose.Schema({
-    comment:{type: String},
-    title:{type: String},
-    image:{type: String},
-    timestamp: {type: Date, default: Date.now},
-    userId:{type:mongoose.Types.ObjectId, ref:'user'}
+const Message = db.define("message", {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+    },
+    comment:{type: Sequelize.STRING, allowNull: false},
+    image:{type: Sequelize.STRING, allowNull: false},
 })
-
-const Message = mongoose.model("message", messageSchema)
 
 module.exports = Message
