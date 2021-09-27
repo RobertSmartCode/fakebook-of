@@ -402,7 +402,7 @@ textarea {
 .photo {
   background-position: center;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   width: 80%;
   height: 47vh;
   border-radius: 5px;
@@ -671,6 +671,12 @@ textarea {
   padding-bottom: 2em;
   border-radius: 1em;
   box-shadow: 2px -2px 17px 8px rgba(0, 0, 0, 0.055);
+}
+
+.date {
+  font-size: 0.7rem;
+  align-self: flex-end;
+  margin-right: 5rem;
 }
 
 #imageUp {
